@@ -89,24 +89,7 @@ void citire(FILE *f2, NodeEch **headech,int *nrech)
     free(firstName);
     free(secondName);
 }
-/*void pctaj_ech(NodeEch *head)
-{
-    int i;
-    NodeEch *headcpy;
-    //NodeJuc *headjuc;
-    headcpy=head;
-    while(headcpy!=NULL)
-    {
-        headcpy->pctj=0;
-        for(i=0; i<headcpy->nrjuc; i++)
-        {
-            headcpy->pctj=headcpy->pctj+headcpy->head->points;
-            headcpy->head=headcpy->head->next;
-        }
-        headcpy->pctj=(float)(headcpy->pctj)/(headcpy->nrjuc);
-        headcpy=headcpy->next;
-    }
-}*/
+
 void elimina(NodeEch **head,int *nrech)
 {
     NodeEch *headcpy,*prev;
