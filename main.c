@@ -20,19 +20,33 @@ int main(int argc, char* argv[])
         printf("Fisierul f3 nu a putut fi deschis!");
         exit(1);
     }
-    int v[5],i;
-    for(i=0;i<5;i++)
+    int v[5],i,nrech;
+    char a;
+    for(i=0; i<5; i++)
         fscanf(f1,"%d",&v[i]);
     NodeEch *headech=NULL,*headcpy;
-    citire(f2,&headech);
-    if(v[0]==1)
-    {
+    fscanf(f2,"%d",&nrech);
+    fscanf(f2,"%c",&a);
+    citire(f2,&headech,&nrech);
     headcpy=headech;
-    while(headcpy!=NULL)
+    if(v[1]==1)
     {
-        fprintf(f3,"%s\n",headcpy->numech);
-        headcpy=headcpy->next;
+        elimina(&headech,&nrech);
+        headcpy=headech;
+        while(headcpy!=NULL)
+        {
+            fprintf(f3,"%s\n",headcpy->numech);
+            headcpy=headcpy->next;
+        }
     }
+    else if(v[0]==1)
+    {
+        headcpy=headech;
+        while(headcpy!=NULL)
+        {
+            fprintf(f3,"%s\n",headcpy->numech);
+            headcpy=headcpy->next;
+        }
     }
     fclose(f2);
     fclose(f3);
