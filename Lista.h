@@ -49,4 +49,6 @@ void printround(FILE *f3,NodeEch *headcpy,int n,NodeEch **castig, NodeEch **invi
 void deleteinvins(NodeEch **invins);
 void printcastig(FILE *f3,NodeEch *headcpy,int n);
 void adaugqueue(Queue *q,NodeEch **headcpy,int n);
-
+NodeGraph *newNode(NodeEch *nodech);
+NodeGraph *insertg(NodeGraph *node,NodeEch *nodech);
+void descresc(FILE *f3,NodeGraph *root);
