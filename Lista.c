@@ -43,13 +43,20 @@ void addAtBeginningJuc(NodeJuc **head,int p, char *f, char *s)
     newNode->next=*head;
     *head=newNode;
 }
-void addAtBeginningEch(NodeEch **head,int nr, char *num, NodeJuc* j,int pctj)
+void addAtBeginningEch(NodeEch **head,int nr, char *num, NodeJuc* j,float pctj)
 {
     NodeEch* newNode=(NodeEch*)malloc(sizeof(NodeEch));
     newNode->nrjuc=nr;
     newNode->numech=malloc((strlen(num)+1)*sizeof(char));
     strcpy(newNode->numech,num);
     newNode->pctj=(float)pctj/nr;
+    newNode->next=*head;
+    *head=newNode;
+}
+void addAtBeginning8(NodeEch **head, NodeEch *node)
+{
+    NodeEch* newNode=(NodeEch*)malloc(sizeof(NodeEch));
+    *newNode=*node;
     newNode->next=*head;
     *head=newNode;
 }
@@ -70,6 +77,8 @@ void citire(FILE *f2, NodeEch **headech,int *nrech)
         fscanf(f2,"%c",&a);
         fgets(numech,50,f2);
         numech[strlen(numech)-2]='\0';
+        while(numech[strlen(numech)-1]==' ')
+            numech[strlen(numech)-1]='\0';
         numech=(char*)realloc(numech,strlen(numech));
         pctj=0;
         for(j=0; j<nrjuc; j++)
@@ -132,4 +141,125 @@ void elimina(NodeEch **head,int *nrech)
         (*nrech)--;
     }
 
+}
+Queue * createQueue ()
+{
+    Queue *q;
+    q=( Queue *) malloc ( sizeof ( Queue ));
+    if (q== NULL ) return NULL ;
+    q->front =q->rear=NULL ;
+    return q;
+}
+void enQueue ( Queue *q, NodeEch* x)
+{
+    NodeEch* newNode=(NodeEch*)malloc(sizeof(NodeEch));
+    *newNode=*x;
+    newNode->next= NULL ;
+    if (q->rear == NULL ) q->rear = newNode ;
+    else
+    {
+        (q->rear)->next = newNode ;
+        (q->rear)=newNode ;
+    }
+    if (q->front == NULL ) q->front =q->rear ;
+}
+int isEmpty ( Queue *q)
+{
+    return (q->front == NULL );
+}
+void deQueue ( Queue *q)
+{
+    NodeEch * aux ;
+    if ( isEmpty (q)) return;
+    aux=q->front ;
+    q->front =(q->front)->next ;
+    if(q->front==NULL)
+        q->rear=NULL;
+    free (aux );
+}
+void push ( NodeEch ** top,NodeEch *x)
+{
+    NodeEch * newNode =( NodeEch *) malloc ( sizeof ( NodeEch ));
+    *newNode=*x;
+    newNode ->next =* top;
+    *top= newNode ;
+}
+void pop( NodeEch ** top)
+{
+    *top =(* top)->next ;
+}
+void printqueue(FILE *f3,NodeEch *curent,int n)
+{
+    while(curent!=NULL&&n==1)
+    {
+        fprintf(f3,"%s\n",curent->numech);
+        curent=curent->next;
+    }
+    fprintf(f3,"\n");
+}
+void printround(FILE *f3,NodeEch *headcpy,int n,NodeEch **castig, NodeEch **invins)
+{
+    int i;
+    fprintf(f3,"--- ROUND NO:%d\n",n);
+    while(headcpy!=NULL)
+    {
+        fprintf(f3,"%s",headcpy->numech);
+        for(i=0; i<(33-strlen(headcpy->numech)); i++)
+            fprintf(f3," ");
+        fprintf(f3,"-");
+        for(i=0; i<(33-strlen((headcpy->next)->numech)); i++)
+            fprintf(f3," ");
+        fprintf(f3,"%s\n",(headcpy->next)->numech);
+        if(headcpy->pctj>(headcpy->next)->pctj)///sau >= in functie de ce spune cerinta
+        {
+            push(castig,headcpy);
+            push(invins,headcpy->next);
+        }
+        else
+        {
+            push(invins,headcpy);
+            push(castig,headcpy->next);
+        }
+        headcpy=headcpy->next->next;
+    }
+    fprintf(f3,"\n");
+}
+void deleteinvins(NodeEch **invins)
+{
+    while(*invins!=NULL)
+        pop(invins);
+}
+void printcastig(FILE *f3,NodeEch *headcpy,int n)
+{
+    int i;
+    fprintf(f3,"WINNERS OF ROUND NO:%d\n",n);
+    while(headcpy!=NULL)
+    {
+        fprintf(f3,"%s",headcpy->numech);
+        for(i=0; i<34-strlen(headcpy->numech); i++)
+            fprintf(f3," ");
+        fprintf(f3,"-  ");
+        headcpy->pctj++;
+        fprintf(f3,"%.2f\n",headcpy->pctj);
+        headcpy=headcpy->next;
+    }
+}
+void adaugqueue(Queue *q,NodeEch **headcpy,int n)
+{
+    if(n==1)
+    {
+        while(*headcpy!=NULL)
+        {
+            enQueue(q,*headcpy);
+            *headcpy=(*headcpy)->next;
+        }
+    }
+    else
+    {
+        while(*headcpy!=NULL)
+        {
+            enQueue(q,*headcpy);
+            pop(headcpy);
+        }
+    }
 }
