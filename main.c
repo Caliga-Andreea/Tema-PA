@@ -30,45 +30,7 @@ int main(int argc, char* argv[])
     headcpy=headech;
     Queue *q;
     q=createQueue();
-    if(v[3]==1)
-    {
-        elimina(&headech,&nrech);
-        while(nrech>1)
-        {
-            if(nrech==8)
-            {
-                headcpy=castig;
-                while(headcpy!=NULL)
-                {addAtBeginning8(&ult8,headcpy);
-                headcpy=headcpy->next;
-                }
-            }
-
-            if(n==1)
-            adaugqueue(q,&headech,n);
-            else
-            adaugqueue(q,&castig,n);
-            printqueue(f3,q->front,n);
-            printround(f3,q->front,n,&castig,&invins);
-            deleteinvins(&invins);
-            printcastig(f3,castig,n);
-            while(!isEmpty(q))
-                deQueue(q);
-            n++;
-            nrech=nrech/2;
-        }
-        NodeGraph *root=NULL;
-        headcpy=ult8;
-        while(headcpy!=NULL)
-        {
-            root=insertg(root,headcpy);
-            headcpy=headcpy->next;
-        }
-        fprintf(f3,"\n");
-        fprintf(f3,"TOP 8 TEAMS:\n");
-        descresc(f3,root);
-    }
-    else if(v[2]==1)
+    if(v[2]==1)
     {
         elimina(&headech,&nrech);
         while(nrech>1)
