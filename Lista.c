@@ -263,3 +263,37 @@ void adaugqueue(Queue *q,NodeEch **headcpy,int n)
         }
     }
 }
+NodeGraph *newNode(NodeEch *nodech){
+NodeGraph * node = ( NodeGraph *) malloc ( sizeof ( NodeGraph ));
+node->ech=nodech;
+node->left=node->right=NULL ;
+return node;
+}
+NodeGraph *insertg(NodeGraph *node,NodeEch *nodech){
+if ( node == NULL ) return newNode(nodech);
+if (nodech->pctj>node->ech->pctj)
+    node->right=insertg(node->right,nodech);
+else if(nodech->pctj<node->ech->pctj)
+node->left=insertg(node->left,nodech);
+else{
+    if(strcmp(nodech->numech,node->ech->numech)>0)
+        node->right=insertg(node->right,nodech);
+    else
+        node->left=insertg(node->left,nodech);
+}
+return node ;
+}
+void descresc(FILE *f3,NodeGraph *root)
+{
+    int i;
+    if(root)
+    {
+        descresc(f3,root->right);
+        fprintf(f3,"%s",root->ech->numech);
+        for(i=0;i<34-strlen(root->ech->numech);i++)
+            fprintf(f3," ");
+        fprintf(f3,"-  ");
+        fprintf(f3,"%.2f\n",root->ech->pctj);
+        descresc(f3,root->left);
+    }
+}
