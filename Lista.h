@@ -52,3 +52,8 @@ void adaugqueue(Queue *q,NodeEch **headcpy,int n);
 NodeGraph *newNode(NodeEch *nodech);
 NodeGraph *insertg(NodeGraph *node,NodeEch *nodech);
 void descresc(FILE *f3,NodeGraph *root);
+void task3(FILE *f3,NodeEch **castig, NodeEch **ult8,int *nrech,NodeEch **invins,Queue **q,NodeEch *headech);
+void BST(FILE *f3,NodeEch **ult8,NodeGraph **root);
+void citfis(FILE *f2,Queue **q,int *nrech,NodeEch **headech);
+void testfis(FILE *f);
+void task1(FILE *f3,NodeEch *headech);

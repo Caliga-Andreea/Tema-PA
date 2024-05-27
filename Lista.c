@@ -263,25 +263,28 @@ void adaugqueue(Queue *q,NodeEch **headcpy,int n)
         }
     }
 }
-NodeGraph *newNode(NodeEch *nodech){
-NodeGraph * node = ( NodeGraph *) malloc ( sizeof ( NodeGraph ));
-node->ech=nodech;
-node->left=node->right=NULL ;
-return node;
+NodeGraph *newNode(NodeEch *nodech)
+{
+    NodeGraph * node = ( NodeGraph *) malloc ( sizeof ( NodeGraph ));
+    node->ech=nodech;
+    node->left=node->right=NULL ;
+    return node;
 }
-NodeGraph *insertg(NodeGraph *node,NodeEch *nodech){
-if ( node == NULL ) return newNode(nodech);
-if (nodech->pctj>node->ech->pctj)
-    node->right=insertg(node->right,nodech);
-else if(nodech->pctj<node->ech->pctj)
-node->left=insertg(node->left,nodech);
-else{
-    if(strcmp(nodech->numech,node->ech->numech)>0)
+NodeGraph *insertg(NodeGraph *node,NodeEch *nodech)
+{
+    if ( node == NULL ) return newNode(nodech);
+    if (nodech->pctj>node->ech->pctj)
         node->right=insertg(node->right,nodech);
-    else
+    else if(nodech->pctj<node->ech->pctj)
         node->left=insertg(node->left,nodech);
-}
-return node ;
+    else
+    {
+        if(strcmp(nodech->numech,node->ech->numech)>0)
+            node->right=insertg(node->right,nodech);
+        else
+            node->left=insertg(node->left,nodech);
+    }
+    return node ;
 }
 void descresc(FILE *f3,NodeGraph *root)
 {
@@ -290,10 +293,78 @@ void descresc(FILE *f3,NodeGraph *root)
     {
         descresc(f3,root->right);
         fprintf(f3,"%s",root->ech->numech);
-        for(i=0;i<34-strlen(root->ech->numech);i++)
+        for(i=0; i<34-strlen(root->ech->numech); i++)
             fprintf(f3," ");
         fprintf(f3,"-  ");
         fprintf(f3,"%.2f\n",root->ech->pctj);
         descresc(f3,root->left);
     }
+}
+void task3(FILE *f3,NodeEch **castig, NodeEch **ult8,int *nrech,NodeEch **invins,Queue **q,NodeEch *headech)
+{
+    int n=1;
+    NodeEch *headcpy;
+    while(*nrech>1)
+    {
+        if(*nrech==8)
+        {
+            headcpy=*castig;
+            while(headcpy!=NULL)
+            {
+                addAtBeginning8(ult8,headcpy);
+                headcpy=headcpy->next;
+            }
+        }
+
+        if(n==1)
+            adaugqueue(*q,&headech,n);
+        else
+            adaugqueue(*q,castig,n);
+        printqueue(f3,(*q)->front,n);
+        printround(f3,(*q)->front,n,castig,invins);
+        deleteinvins(invins);
+        printcastig(f3,*castig,n);
+        while(!isEmpty(*q))
+            deQueue(*q);
+        n++;
+        *nrech=(*nrech)/2;
+    }
+}
+void BST(FILE *f3,NodeEch **ult8,NodeGraph **root)
+{
+    NodeEch *headcpy;
+    headcpy=(*ult8);
+    while(headcpy!=NULL)
+    {
+        *root=insertg(*root,headcpy);
+        headcpy=headcpy->next;
+    }
+    fprintf(f3,"\n");
+    fprintf(f3,"TOP 8 TEAMS:\n");
+    descresc(f3,*root);
+}
+void citfis(FILE *f2,Queue **q,int *nrech,NodeEch **headech)
+{  char a;
+    fscanf(f2,"%d",nrech);
+    fscanf(f2,"%c",&a);
+    citire(f2,headech,nrech);
+    *q=createQueue();
+}
+void testfis(FILE *f)
+{
+    if(f==NULL)
+    {
+        printf("Fisierul nu a putut fi deschis");
+        exit(1);
+    }
+}
+void task1(FILE *f3,NodeEch *headech)
+{
+    NodeEch *headcpy=NULL;
+    headcpy=headech;
+        while(headcpy!=NULL)
+        {
+            fprintf(f3,"%s\n",headcpy->numech);
+            headcpy=headcpy->next;
+        }
 }
