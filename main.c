@@ -10,10 +10,21 @@ int main(int argc, char* argv[])
     int v[5],i,nrech;
     for(i=0; i<5; i++)
         fscanf(f1,"%d",&v[i]);
-    NodeEch *headech=NULL,*headcpy,*castig=NULL,*invins=NULL,*ult8=NULL;
+    NodeAVL *node=NULL;
+    NodeEch *headech=NULL,*castig=NULL,*invins=NULL,*ult8=NULL;
     Queue *q;
     citfis(f2,&q,&nrech,&headech);
-    if(v[3]==1)
+    if(v[4]==1)
+    {
+        elimina(&headech,&nrech);
+        task3(f3,&castig,&ult8,&nrech,&invins,&q,headech);
+        NodeGraph *root=NULL;
+        BST(f3,&ult8,&root);
+        fprintf(f3,"\nTHE LEVEL 2 TEAMS ARE:");
+        descrescAVL(&node,root);
+        afislvl2(f3,node,2,0);
+    }
+    else if(v[3]==1)
     {
         elimina(&headech,&nrech);
         task3(f3,&castig,&ult8,&nrech,&invins,&q,headech);

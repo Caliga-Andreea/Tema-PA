@@ -344,7 +344,8 @@ void BST(FILE *f3,NodeEch **ult8,NodeGraph **root)
     descresc(f3,*root);
 }
 void citfis(FILE *f2,Queue **q,int *nrech,NodeEch **headech)
-{  char a;
+{
+    char a;
     fscanf(f2,"%d",nrech);
     fscanf(f2,"%c",&a);
     citire(f2,headech,nrech);
@@ -362,9 +363,120 @@ void task1(FILE *f3,NodeEch *headech)
 {
     NodeEch *headcpy=NULL;
     headcpy=headech;
-        while(headcpy!=NULL)
-        {
-            fprintf(f3,"%s\n",headcpy->numech);
-            headcpy=headcpy->next;
-        }
+    while(headcpy!=NULL)
+    {
+        fprintf(f3,"%s\n",headcpy->numech);
+        headcpy=headcpy->next;
+    }
+}
+int max (int a,int b)
+{
+    return ((a>b)?a:b);
+}
+int nodeHeight(NodeAVL *root)
+{
+    if(root==NULL)return -1;
+    else
+        return root->height;
+}
+NodeAVL *RightRotation ( NodeAVL *z) // z nod cu —K— ¿1
+{
+    NodeAVL *y = z->left ;
+    NodeAVL *T3 = y->right ;
+// Roteste
+    y->right = z;
+    z->left = T3;
+// Modifica inaltimile pentru z si y
+    z->height = max( nodeHeight (z->left ),
+                     nodeHeight (z->right ))+1;
+    y->height = max( nodeHeight (y->left ),
+                     nodeHeight (y->right ))+1;
+    return y; // noua radacina
+}
+
+NodeAVL *LeftRotation ( NodeAVL *z)
+{
+    NodeAVL *y = z->right ;
+    NodeAVL *T2 = y->left ;
+    y->left = z;
+    z->right = T2;
+    z->height = max( nodeHeight (z->left ),nodeHeight (z->right ))+1;
+    y->height = max( nodeHeight (y->left ),nodeHeight (y->right ))+1;
+    return y;
+}
+
+NodeAVL* LRRotation ( NodeAVL *Z)
+{
+    Z->left = LeftRotation(Z->left);
+    return RightRotation(Z);
+}
+NodeAVL* RLRotation ( NodeAVL *Z)
+{
+    Z->right = RightRotation (Z->right);
+    return LeftRotation(Z);
+}
+NodeAVL* creareAVL(NodeGraph *nodech)
+{
+    NodeAVL *node;
+    node=(NodeAVL*)malloc(sizeof(NodeAVL));
+    node->ech=(NodeEch*)malloc(sizeof(NodeEch));
+    node->ech->nrjuc=nodech->ech->nrjuc;
+    node->ech->numech=malloc((strlen(nodech->ech->numech)+1)*sizeof(char));
+    strcpy(node->ech->numech,nodech->ech->numech);
+    node->ech->pctj=nodech->ech->pctj;
+    node->height=0;
+    node->left=node->right=NULL;
+    return node;
+}
+NodeAVL* insert ( NodeAVL * node, NodeGraph *ech)
+{
+    if ( node == NULL )
+        node=creareAVL(ech);
+    if ( ech->ech->pctj<node->ech->pctj)
+        node ->left = insert (node ->left,ech);
+    else if (ech->ech->pctj>node->ech->pctj)
+        node ->right = insert (node ->right,ech);
+    else if(ech->ech->pctj==node->ech->pctj&&strcmp(ech->ech->numech,node->ech->numech)<0)
+        node->left=insert(node->left,ech);
+    else if(ech->ech->pctj==node->ech->pctj&&strcmp(ech->ech->numech,node->ech->numech)>0)
+        node->right=insert(node->right,ech);
+    else return node ;
+    node ->height = 1 + max( nodeHeight (node ->left ),nodeHeight (node ->right ));
+    int k = ( nodeHeight (node ->left ) -nodeHeight (node ->right ));
+    if (k>1 && ech->ech->pctj<node ->left ->ech->pctj)
+        return RightRotation ( node );
+    if (k < -1 && ech->ech->pctj>node ->right ->ech->pctj)
+        return LeftRotation ( node );
+    if (k<1 && ech->ech->pctj>node ->left ->ech->pctj)
+        return RLRotation ( node );
+    if (k <-1 && ech->ech->pctj<node ->right ->ech->pctj)
+        return LRRotation ( node );
+    if(k>1&&ech->ech->pctj==node->left->ech->pctj&&strcmp(ech->ech->numech,node->left->ech->numech)<0)
+        return RightRotation(node);
+    if(k<-1&&ech->ech->pctj==node->right->ech->pctj&&strcmp(ech->ech->numech,node->left->ech->numech)>0)
+        return LeftRotation(node);
+    if(k>1&&ech->ech->pctj==node->left->ech->pctj&&strcmp(ech->ech->numech,node->left->ech->numech)>0)
+        return LRRotation(node);
+    if(k<-1&&ech->ech->pctj==node->right->ech->pctj&&strcmp(ech->ech->numech,node->right->ech->numech)<0)
+        return RLRotation(node);
+    return node;
+}
+void descrescAVL(NodeAVL **node,NodeGraph *root)
+{
+    if(root)
+    {
+        descrescAVL(node,root->right);
+        *node=insert(*node,root);
+        descrescAVL(node,root->left);
+    }
+}
+void afislvl2(FILE *f3, NodeAVL *root,int nivel,int curent)
+{
+    if(nivel==curent)
+        fprintf(f3,"\n%s",root->ech->numech);
+    else if(nivel>curent)
+    {
+        afislvl2(f3,root->right,nivel,curent+1);
+        afislvl2(f3,root->left,nivel,curent+1);
+    }
 }

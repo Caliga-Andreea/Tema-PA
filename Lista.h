@@ -30,6 +30,13 @@ struct Graph
     NodeGraph *left;
     NodeGraph *right;
 };
+typedef struct AVL NodeAVL;
+struct AVL
+{
+    NodeEch *ech;
+    NodeAVL *left,*right;
+    int height;
+};
 NodeJuc* createNodeJuc(int p,char *f,char *s);
 NodeEch* createNodeEch(int nr,char *num, NodeJuc* j);
 void addAtBeginningJuc(NodeJuc **head,int p, char *f, char *s);
@@ -57,3 +64,12 @@ void BST(FILE *f3,NodeEch **ult8,NodeGraph **root);
 void citfis(FILE *f2,Queue **q,int *nrech,NodeEch **headech);
 void testfis(FILE *f);
 void task1(FILE *f3,NodeEch *headech);
+int nodeHeight(NodeAVL *root);
+NodeAVL * RightRotation ( NodeAVL *z);
+NodeAVL * LeftRotation ( NodeAVL *z);
+NodeAVL * LRRotation ( NodeAVL *Z);
+NodeAVL * RLRotation ( NodeAVL *Z);
+NodeAVL * insert ( NodeAVL * node , NodeGraph *ech);
+NodeAVL* creareAVL(NodeGraph *nodech);
+void afislvl2(FILE *f3, NodeAVL *root,int nivel,int curent);
+void descrescAVL(NodeAVL **node,NodeGraph *root);
