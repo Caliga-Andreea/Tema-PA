@@ -73,3 +73,5 @@ NodeAVL * insert ( NodeAVL * node , NodeGraph *ech);
 NodeAVL* creareAVL(NodeGraph *nodech);
 void afislvl2(FILE *f3, NodeAVL *root,int nivel,int curent);
 void descrescAVL(NodeAVL **node,NodeGraph *root);
+void task4(FILE *f3,NodeEch **headech,int *nrech,NodeEch **castig, NodeEch **invins, Queue **q, NodeGraph **root, NodeEch **ult8);
+void task5(FILE *f3,NodeEch **headech,int *nrech, NodeEch **castig,NodeEch **invins,NodeEch **ult8,Queue **q,NodeGraph **root,NodeAVL **node);

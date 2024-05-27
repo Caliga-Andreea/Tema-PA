@@ -480,3 +480,18 @@ void afislvl2(FILE *f3, NodeAVL *root,int nivel,int curent)
         afislvl2(f3,root->left,nivel,curent+1);
     }
 }
+void task4(FILE *f3,NodeEch **headech,int *nrech,NodeEch **castig, NodeEch **invins, Queue **q, NodeGraph **root, NodeEch **ult8)
+{
+        elimina(headech,nrech);
+        task3(f3,castig,ult8,nrech,invins,q,*headech);
+        BST(f3,ult8,root);
+}
+void task5(FILE *f3,NodeEch **headech,int *nrech, NodeEch **castig,NodeEch **invins,NodeEch **ult8,Queue **q,NodeGraph **root,NodeAVL **node)
+{
+        elimina(headech,nrech);
+        task3(f3,castig,ult8,nrech,invins,q,*headech);
+        BST(f3,ult8,root);
+        fprintf(f3,"\nTHE LEVEL 2 TEAMS ARE:");
+        descrescAVL(node,*root);
+        afislvl2(f3,*node,2,0);
+}
