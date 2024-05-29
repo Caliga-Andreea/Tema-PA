@@ -6,7 +6,7 @@ lista dedicata acestora, iar cand echipa era completa, conform nr de jucatori da
 variabilele auxiliare.Dupa care am parcurs lista de echipe si am afisat numele acestora in fisierul de iesire.
 Task 2
 Am determinat numarul de echipe(numar putere a lui 2) care trebuie sa ramana in campionat, iar mai apoi am eliminat pe rand echipele care aveau punctaj minim(dupa fiecare echipa eliminata, identificam un nou 
-punctaj minim). Existau 3 cazuri: 1. echipa cu punctaj minim era chiar prima din lista si atunci trebuia sa schimbam head-ul listei; 2. Echipa ce trebuia sa fie eliminata era oricare alta echipa, iar pentru a o
+punctaj minim). Existau 2 cazuri: 1. echipa cu punctaj minim era chiar prima din lista si atunci trebuia sa schimbam head-ul listei; 2. Echipa ce trebuia sa fie eliminata era oricare alta echipa, iar pentru a o
 elimina eram nevoita sa pastrez si nodul anterior. Acest proces a fost repetat pana ce am obtinut numarul de echipe identificat la inceput.La final am afisat din nou, parcurgand intreaga lista de echipe, numele
 echipelor.
 Task 3
